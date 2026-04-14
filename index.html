@@ -147,25 +147,14 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        color: var(--jb-text-black);
       }
 
-      .ikona svg {
+      /* Stylování externí SVG ikony vložené přes <img> */
+      .ikona img {
         width: 22px;
         height: 22px;
         display: block;
-      }
-
-      .ikona .vpln {
-        fill: currentColor;
-      }
-
-      .ikona .cara {
-        fill: none;
-        stroke: currentColor;
-        stroke-width: 1.9;
-        stroke-linecap: round;
-        stroke-linejoin: round;
+        object-fit: contain;
       }
 
       .stitek {
@@ -195,44 +184,17 @@
       }
 
       @keyframes pulz {
-        0% {
-          transform: scale(1);
-          opacity: 1;
-        }
-
-        50% {
-          transform: scale(1.06);
-          opacity: 0.82;
-        }
-
-        100% {
-          transform: scale(1);
-          opacity: 1;
-        }
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.06); opacity: 0.82; }
+        100% { transform: scale(1); opacity: 1; }
       }
 
       @media (min-width: 640px) {
-        .obal {
-          padding: 26px 20px 34px;
-        }
-
-        .polozka {
-          grid-template-columns: 112px 28px minmax(0, 1fr);
-          padding: 14px 18px;
-        }
-
-        .den {
-          padding: 20px 18px 12px;
-          font-size: 1.18rem;
-        }
-
-        .cas {
-          font-size: 1rem;
-        }
-
-        .nazev {
-          font-size: 1.08rem;
-        }
+        .obal { padding: 26px 20px 34px; }
+        .polozka { grid-template-columns: 112px 28px minmax(0, 1fr); padding: 14px 18px; }
+        .den { padding: 20px 18px 12px; font-size: 1.18rem; }
+        .cas { font-size: 1rem; }
+        .nazev { font-size: 1.08rem; }
       }
     </style>
   </head>
@@ -247,45 +209,37 @@
     </main>
 
     <script>
-      // Data programu jsou udržována v jednom poli objektů.
       const schedule = [
         { type: "day", label: "ČTVRTEK, 1. DUBNA 2027" },
-        { date: "2027-04-01", start: "09:00", end: "10:00", title: "Příjezd & Ubytování", icon: "kufr" },
-        { date: "2027-04-01", start: "10:00", end: "10:30", title: "Přivítání & Registrace", icon: "megafon" },
-        { date: "2027-04-01", start: "10:30", end: "11:30", title: "Soutěžní blok", icon: "trofej" },
-        { date: "2027-04-01", start: "11:30", end: "12:30", title: "Oběd", icon: "pribor" },
-        { date: "2027-04-01", start: "12:30", end: "13:30", title: "2. Soutěžní blok", icon: "trofej" },
-        { date: "2027-04-01", start: "13:30", end: "14:00", title: "Pauza", icon: "pauza" },
-        { date: "2027-04-01", start: "14:00", end: "15:00", title: "3. Soutěžní blok", icon: "trofej" },
-        { date: "2027-04-01", start: "15:00", end: "15:30", title: "Pauza", icon: "pauza" },
-        { date: "2027-04-01", start: "15:30", end: "16:30", title: "Prezentace", icon: "darek" },
-        { date: "2027-04-01", start: "16:30", end: "18:00", title: "Pauza / Escape room", icon: "puzzle" },
-        { date: "2027-04-01", start: "18:00", end: "19:00", title: "Večeře", icon: "pribor" },
-        { date: "2027-04-01", start: "19:00", end: "19:30", title: "Vyhlášení", icon: "oslaveni" },
-        { date: "2027-04-01", start: "19:30", end: "23:59", title: "Volný čas", icon: "masky", showArrowOnly: true },
+        { date: "2027-04-01", start: "09:00", end: "10:00", title: "Příjezd & Ubytování", icon: "kufr.svg" },
+        { date: "2027-04-01", start: "10:00", end: "10:30", title: "Přivítání & Registrace", icon: "megafon.svg" },
+        { date: "2027-04-01", start: "10:30", end: "11:30", title: "Soutěžní blok", icon: "pohar.svg" },
+        { date: "2027-04-01", start: "11:30", end: "12:30", title: "Oběd", icon: "pribor.svg" },
+        { date: "2027-04-01", start: "12:30", end: "13:30", title: "2. Soutěžní blok", icon: "pohar.svg" },
+        { date: "2027-04-01", start: "13:30", end: "14:00", title: "Pauza", icon: "hodiny.svg" },
+        { date: "2027-04-01", start: "14:00", end: "15:00", title: "3. Soutěžní blok", icon: "pohar.svg" },
+        { date: "2027-04-01", start: "15:00", end: "15:30", title: "Pauza", icon: "hodiny.svg" },
+        { date: "2027-04-01", start: "15:30", end: "16:30", title: "Prezentace", icon: "prezentace.svg" },
+        { date: "2027-04-01", start: "16:30", end: "18:00", title: "Pauza / Escape room", icon: "hodiny.svg" },
+        { date: "2027-04-01", start: "18:00", end: "19:00", title: "Večeře", icon: "pribor.svg" },
+        { date: "2027-04-01", start: "19:00", end: "19:30", title: "Vyhlášení", icon: "vyhlaseni.svg" },
+        { date: "2027-04-01", start: "19:30", end: "23:59", title: "Volný čas", icon: "mic.svg", showArrowOnly: true },
         { type: "day", label: "PÁTEK, 2. DUBNA 2027" },
-        { date: "2027-04-02", start: "09:30", end: "10:30", title: "Snídaně", icon: "pribor" },
-        { date: "2027-04-02", start: "10:30", end: "12:00", title: "Odregistrace / Odjezd", icon: "autobus" }
+        { date: "2027-04-02", start: "09:30", end: "10:30", title: "Snídaně", icon: "pribor.svg" },
+        { date: "2027-04-02", start: "10:30", end: "12:00", title: "Odregistrace / Odjezd", icon: "odchod.svg" }
       ];
 
       const timelineElement = document.getElementById("timeline");
 
-      // Převod času HH:MM na počet minut od půlnoci.
       function timeToMinutes(time) {
         const [hours, minutes] = time.split(":").map(Number);
         return hours * 60 + minutes;
       }
 
-      // Formát zobrazení času. Poslední položka má pouze šipku podle zadání.
       function formatTimeLabel(item) {
-        if (item.showArrowOnly) {
-          return `${item.start} →`;
-        }
-
-        return `${item.start} - ${item.end}`;
+        return item.showArrowOnly ? `${item.start} →` : `${item.start} - ${item.end}`;
       }
 
-      // Převod data zařízení na lokální ISO řetězec YYYY-MM-DD.
       function getTodayIsoDate() {
         const now = new Date();
         const year = now.getFullYear();
@@ -294,92 +248,6 @@
         return `${year}-${month}-${day}`;
       }
 
-      // Vrátí černou SVG ikonu podle typu položky.
-      function getIconSvg(iconType) {
-        const icons = {
-          kufr: `
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <rect class="cara" x="4" y="7" width="16" height="12" rx="2"></rect>
-              <path class="cara" d="M9 7V5h6v2"></path>
-              <path class="cara" d="M12 7v12"></path>
-            </svg>
-          `,
-          megafon: `
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path class="cara" d="M4 11h4l8-4v10l-8-4H4z"></path>
-              <path class="cara" d="M8 15l1.3 3"></path>
-              <path class="cara" d="M18.5 10.5c.9.8.9 2.2 0 3"></path>
-            </svg>
-          `,
-          trofej: `
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path class="cara" d="M8 5h8v3a4 4 0 0 1-8 0z"></path>
-              <path class="cara" d="M8 6H6a2 2 0 0 0 2 3"></path>
-              <path class="cara" d="M16 6h2a2 2 0 0 1-2 3"></path>
-              <path class="cara" d="M12 12v4"></path>
-              <path class="cara" d="M9 20h6"></path>
-            </svg>
-          `,
-          pribor: `
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path class="cara" d="M6 4v6"></path>
-              <path class="cara" d="M8 4v6"></path>
-              <path class="cara" d="M7 10v10"></path>
-              <path class="cara" d="M16 4c2 2 2 6 0 8v8"></path>
-            </svg>
-          `,
-          pauza: `
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <circle class="cara" cx="12" cy="12" r="8"></circle>
-              <path class="vpln" d="M10 8h1.8v8H10z"></path>
-              <path class="vpln" d="M12.8 8h1.8v8h-1.8z"></path>
-            </svg>
-          `,
-          darek: `
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <rect class="cara" x="4" y="9" width="16" height="4" rx="1"></rect>
-              <rect class="cara" x="5" y="13" width="14" height="7" rx="1"></rect>
-              <path class="cara" d="M12 9v11"></path>
-              <path class="cara" d="M12 9c0-3-4-3-4-1.2S10 9 12 9z"></path>
-              <path class="cara" d="M12 9c0-3 4-3 4-1.2S14 9 12 9z"></path>
-            </svg>
-          `,
-          puzzle: `
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path class="cara" d="M7 7h4a2 2 0 1 1 2 0h4v4a2 2 0 1 1 0 2v4h-4a2 2 0 1 1-2 0H7v-4a2 2 0 1 1 0-2z"></path>
-            </svg>
-          `,
-          oslaveni: `
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path class="cara" d="M12 20l4-8-8 2z"></path>
-              <circle class="vpln" cx="8" cy="8" r="1.2"></circle>
-              <circle class="vpln" cx="11" cy="6" r="1"></circle>
-              <circle class="vpln" cx="14" cy="8" r="1.1"></circle>
-            </svg>
-          `,
-          masky: `
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path class="cara" d="M4 10c2 0 4-2 6-2v6c-2 0-4 2-6 2z"></path>
-              <path class="cara" d="M20 10c-2 0-4-2-6-2v6c2 0 4 2 6 2z"></path>
-              <circle class="vpln" cx="7.5" cy="11.2" r="0.7"></circle>
-              <circle class="vpln" cx="16.5" cy="11.2" r="0.7"></circle>
-            </svg>
-          `,
-          autobus: `
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <rect class="cara" x="4" y="6" width="16" height="11" rx="2"></rect>
-              <path class="cara" d="M7 17v2"></path>
-              <path class="cara" d="M17 17v2"></path>
-              <circle class="vpln" cx="8" cy="18" r="1.2"></circle>
-              <circle class="vpln" cx="16" cy="18" r="1.2"></circle>
-            </svg>
-          `
-        };
-
-        return icons[iconType] || icons.trofej;
-      }
-
-      // Vykreslení celé časové osy.
       function renderSchedule(activeIndex) {
         timelineElement.innerHTML = "";
 
@@ -394,10 +262,7 @@
 
           const li = document.createElement("li");
           li.className = "polozka";
-
-          if (index === activeIndex) {
-            li.classList.add("aktivni");
-          }
+          if (index === activeIndex) li.classList.add("aktivni");
 
           const time = document.createElement("div");
           time.className = "cas";
@@ -425,13 +290,13 @@
             texts.appendChild(badge);
           }
 
-          const icon = document.createElement("span");
-          icon.className = "ikona";
-          icon.innerHTML = getIconSvg(item.icon);
-          icon.setAttribute("aria-hidden", "true");
+          const iconContainer = document.createElement("span");
+          iconContainer.className = "ikona";
+          // Zde se vkládá cesta k tvému souboru .svg
+          iconContainer.innerHTML = `<img src="${item.icon}" alt="" aria-hidden="true">`;
 
           content.appendChild(texts);
-          content.appendChild(icon);
+          content.appendChild(iconContainer);
 
           li.appendChild(time);
           li.appendChild(line);
@@ -441,29 +306,21 @@
         });
       }
 
-      // Nalezení aktuálně probíhající položky podle času zařízení.
       function getActiveIndex() {
         const now = new Date();
         const todayIso = getTodayIsoDate();
         const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
         return schedule.findIndex((item) => {
-          if (item.type === "day" || item.date !== todayIso) {
-            return false;
-          }
-
+          if (item.type === "day" || item.date !== todayIso) return false;
           const startMinutes = timeToMinutes(item.start);
           const endMinutes = timeToMinutes(item.end);
-
-          if (item.showArrowOnly) {
-            return currentMinutes >= startMinutes && currentMinutes <= endMinutes;
-          }
-
-          return currentMinutes >= startMinutes && currentMinutes < endMinutes;
+          return item.showArrowOnly 
+            ? (currentMinutes >= startMinutes && currentMinutes <= endMinutes)
+            : (currentMinutes >= startMinutes && currentMinutes < endMinutes);
         });
       }
 
-      // Pravidelná aktualizace každých 30 sekund bez nutnosti obnovit stránku.
       function updateActiveItem() {
         const activeIndex = getActiveIndex();
         renderSchedule(activeIndex);

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Vrstva_2" data-name="Vrstva 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
+  <defs>
+    <style>
+      .cls-1 {
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <g id="Vrstva_1-2" data-name="Vrstva 1">
+    <g id="circle-clock--clock-loading-measure-time-circle">
+      <path id="Subtract" class="cls-1" d="M7,14c3.87,0,7-3.13,7-7S10.87,0,7,0,0,3.13,0,7s3.13,7,7,7ZM7.62,4.5c0-.35-.28-.62-.62-.62s-.62.28-.62.62v2.5c0,.15.05.29.14.4l2.5,3c.22.27.62.3.88.08.27-.22.3-.62.08-.88l-2.36-2.83v-2.27Z"/>
+    </g>
+  </g>
+</svg>

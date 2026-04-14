@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Vrstva_2" data-name="Vrstva 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
+  <defs>
+    <style>
+      .cls-1 {
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <g id="Vrstva_1-2" data-name="Vrstva 1">
+    <g id="projector-board--projector-screen-work-meeting-presentation">
+      <path id="Union" class="cls-1" d="M0,1.5C0,.67.67,0,1.5,0h11c.83,0,1.5.67,1.5,1.5v1.38H0v-1.38ZM0,4.12h14v5.38c0,.83-.67,1.5-1.5,1.5h-2.19l1.72,1.72c.29.29.29.77,0,1.06s-.77.29-1.06,0l-2.78-2.78h-.44v2.25c0,.41-.34.75-.75.75s-.75-.34-.75-.75v-2.25h-.44l-2.78,2.78c-.29.29-.77.29-1.06,0s-.29-.77,0-1.06l1.72-1.72H1.5c-.83,0-1.5-.67-1.5-1.5v-5.38Z"/>
+    </g>
+  </g>
+</svg>
