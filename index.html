@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Harmonogram události</title>
+    <style>
+      :root {
+        --jb-white: #ffffff;
+        --jb-light-gray: #f5f5f5;
+        --jb-text-black: #000000;
+        --jb-text-dark: #333333;
+        --jb-yellow: #ffcc00;
+        --jb-line: #d9d9d9;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Roboto, Arial, sans-serif;
+        background: var(--jb-light-gray);
+        color: var(--jb-text-dark);
+      }
+
+      .obal {
+        width: 100%;
+        max-width: 820px;
+        margin: 0 auto;
+        padding: 18px 14px 28px;
+      }
+
+      .hlavicka {
+        background: var(--jb-white);
+        border-radius: 16px;
+        padding: 18px 16px;
+        margin-bottom: 12px;
+      }
+
+      .nadpis {
+        margin: 0;
+        color: var(--jb-text-black);
+        font-size: clamp(1.35rem, 2.8vw, 1.9rem);
+        line-height: 1.2;
+        letter-spacing: 0.01em;
+      }
+
+      .podnadpis {
+        margin: 8px 0 0;
+        color: var(--jb-text-dark);
+        font-size: 0.98rem;
+      }
+
+      .timeline {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        background: var(--jb-white);
+        border-radius: 16px;
+        overflow: hidden;
+      }
+
+      .den {
+        padding: 16px 14px 10px;
+        font-size: 1.05rem;
+        font-weight: 800;
+        color: var(--jb-text-black);
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+      }
+
+      .polozka {
+        display: grid;
+        grid-template-columns: 86px 28px minmax(0, 1fr);
+        gap: 8px;
+        align-items: stretch;
+        padding: 12px 14px;
+        border-bottom: 1px solid #ececec;
+        transition: background-color 240ms ease;
+      }
+
+      .polozka:last-child {
+        border-bottom: none;
+      }
+
+      .cas {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        color: var(--jb-text-black);
+        font-weight: 700;
+        font-size: 0.95rem;
+      }
+
+      .osa {
+        position: relative;
+        display: flex;
+        justify-content: center;
+      }
+
+      .osa::before {
+        content: "";
+        position: absolute;
+        width: 2px;
+        top: -12px;
+        bottom: -12px;
+        background: var(--jb-line);
+      }
+
+      .bod {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--jb-yellow);
+        border: 2px solid var(--jb-white);
+        position: relative;
+        top: calc(50% - 6px);
+        z-index: 1;
+      }
+
+      .obsah {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        min-height: 46px;
+      }
+
+      .texty {
+        min-width: 0;
+      }
+
+      .nazev {
+        margin: 0;
+        color: var(--jb-text-black);
+        font-size: 1.03rem;
+        font-weight: 700;
+        line-height: 1.25;
+      }
+
+      .ikona {
+        line-height: 1;
+        min-width: 24px;
+        text-align: center;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--jb-text-black);
+      }
+
+      .ikona svg {
+        width: 22px;
+        height: 22px;
+        display: block;
+      }
+
+      .ikona .vpln {
+        fill: currentColor;
+      }
+
+      .ikona .cara {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.9;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .stitek {
+        display: inline-flex;
+        align-items: center;
+        margin-top: 8px;
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: var(--jb-white);
+        color: var(--jb-text-black);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        animation: pulz 1.25s ease-in-out infinite;
+      }
+
+      .polozka.aktivni {
+        background: var(--jb-yellow);
+      }
+
+      .polozka.aktivni .osa::before {
+        background: #b8a600;
+      }
+
+      .polozka.aktivni .bod {
+        background: var(--jb-text-black);
+      }
+
+      @keyframes pulz {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+
+        50% {
+          transform: scale(1.06);
+          opacity: 0.82;
+        }
+
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      @media (min-width: 640px) {
+        .obal {
+          padding: 26px 20px 34px;
+        }
+
+        .polozka {
+          grid-template-columns: 112px 28px minmax(0, 1fr);
+          padding: 14px 18px;
+        }
+
+        .den {
+          padding: 20px 18px 12px;
+          font-size: 1.18rem;
+        }
+
+        .cas {
+          font-size: 1rem;
+        }
+
+        .nazev {
+          font-size: 1.08rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="obal">
+      <header class="hlavicka">
+        <h1 class="nadpis">Interaktivní harmonogram</h1>
+        <p class="podnadpis">Program se zvýrazňuje automaticky podle aktuálního času v telefonu.</p>
+      </header>
+
+      <ul id="timeline" class="timeline" aria-label="Harmonogram události"></ul>
+    </main>
+
+    <script>
+      // Data programu jsou udržována v jednom poli objektů.
+      const schedule = [
+        { type: "day", label: "ČTVRTEK, 1. DUBNA 2027" },
+        { date: "2027-04-01", start: "09:00", end: "10:00", title: "Příjezd & Ubytování", icon: "kufr" },
+        { date: "2027-04-01", start: "10:00", end: "10:30", title: "Přivítání & Registrace", icon: "megafon" },
+        { date: "2027-04-01", start: "10:30", end: "11:30", title: "Soutěžní blok", icon: "trofej" },
+        { date: "2027-04-01", start: "11:30", end: "12:30", title: "Oběd", icon: "pribor" },
+        { date: "2027-04-01", start: "12:30", end: "13:30", title: "2. Soutěžní blok", icon: "trofej" },
+        { date: "2027-04-01", start: "13:30", end: "14:00", title: "Pauza", icon: "pauza" },
+        { date: "2027-04-01", start: "14:00", end: "15:00", title: "3. Soutěžní blok", icon: "trofej" },
+        { date: "2027-04-01", start: "15:00", end: "15:30", title: "Pauza", icon: "pauza" },
+        { date: "2027-04-01", start: "15:30", end: "16:30", title: "Prezentace", icon: "darek" },
+        { date: "2027-04-01", start: "16:30", end: "18:00", title: "Pauza / Escape room", icon: "puzzle" },
+        { date: "2027-04-01", start: "18:00", end: "19:00", title: "Večeře", icon: "pribor" },
+        { date: "2027-04-01", start: "19:00", end: "19:30", title: "Vyhlášení", icon: "oslaveni" },
+        { date: "2027-04-01", start: "19:30", end: "23:59", title: "Volný čas", icon: "masky", showArrowOnly: true },
+        { type: "day", label: "PÁTEK, 2. DUBNA 2027" },
+        { date: "2027-04-02", start: "09:30", end: "10:30", title: "Snídaně", icon: "pribor" },
+        { date: "2027-04-02", start: "10:30", end: "12:00", title: "Odregistrace / Odjezd", icon: "autobus" }
+      ];
+
+      const timelineElement = document.getElementById("timeline");
+
+      // Převod času HH:MM na počet minut od půlnoci.
+      function timeToMinutes(time) {
+        const [hours, minutes] = time.split(":").map(Number);
+        return hours * 60 + minutes;
+      }
+
+      // Formát zobrazení času. Poslední položka má pouze šipku podle zadání.
+      function formatTimeLabel(item) {
+        if (item.showArrowOnly) {
+          return `${item.start} →`;
+        }
+
+        return `${item.start} - ${item.end}`;
+      }
+
+      // Převod data zařízení na lokální ISO řetězec YYYY-MM-DD.
+      function getTodayIsoDate() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        const day = String(now.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      }
+
+      // Vrátí černou SVG ikonu podle typu položky.
+      function getIconSvg(iconType) {
+        const icons = {
+          kufr: `
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <rect class="cara" x="4" y="7" width="16" height="12" rx="2"></rect>
+              <path class="cara" d="M9 7V5h6v2"></path>
+              <path class="cara" d="M12 7v12"></path>
+            </svg>
+          `,
+          megafon: `
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path class="cara" d="M4 11h4l8-4v10l-8-4H4z"></path>
+              <path class="cara" d="M8 15l1.3 3"></path>
+              <path class="cara" d="M18.5 10.5c.9.8.9 2.2 0 3"></path>
+            </svg>
+          `,
+          trofej: `
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path class="cara" d="M8 5h8v3a4 4 0 0 1-8 0z"></path>
+              <path class="cara" d="M8 6H6a2 2 0 0 0 2 3"></path>
+              <path class="cara" d="M16 6h2a2 2 0 0 1-2 3"></path>
+              <path class="cara" d="M12 12v4"></path>
+              <path class="cara" d="M9 20h6"></path>
+            </svg>
+          `,
+          pribor: `
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path class="cara" d="M6 4v6"></path>
+              <path class="cara" d="M8 4v6"></path>
+              <path class="cara" d="M7 10v10"></path>
+              <path class="cara" d="M16 4c2 2 2 6 0 8v8"></path>
+            </svg>
+          `,
+          pauza: `
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle class="cara" cx="12" cy="12" r="8"></circle>
+              <path class="vpln" d="M10 8h1.8v8H10z"></path>
+              <path class="vpln" d="M12.8 8h1.8v8h-1.8z"></path>
+            </svg>
+          `,
+          darek: `
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <rect class="cara" x="4" y="9" width="16" height="4" rx="1"></rect>
+              <rect class="cara" x="5" y="13" width="14" height="7" rx="1"></rect>
+              <path class="cara" d="M12 9v11"></path>
+              <path class="cara" d="M12 9c0-3-4-3-4-1.2S10 9 12 9z"></path>
+              <path class="cara" d="M12 9c0-3 4-3 4-1.2S14 9 12 9z"></path>
+            </svg>
+          `,
+          puzzle: `
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path class="cara" d="M7 7h4a2 2 0 1 1 2 0h4v4a2 2 0 1 1 0 2v4h-4a2 2 0 1 1-2 0H7v-4a2 2 0 1 1 0-2z"></path>
+            </svg>
+          `,
+          oslaveni: `
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path class="cara" d="M12 20l4-8-8 2z"></path>
+              <circle class="vpln" cx="8" cy="8" r="1.2"></circle>
+              <circle class="vpln" cx="11" cy="6" r="1"></circle>
+              <circle class="vpln" cx="14" cy="8" r="1.1"></circle>
+            </svg>
+          `,
+          masky: `
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path class="cara" d="M4 10c2 0 4-2 6-2v6c-2 0-4 2-6 2z"></path>
+              <path class="cara" d="M20 10c-2 0-4-2-6-2v6c2 0 4 2 6 2z"></path>
+              <circle class="vpln" cx="7.5" cy="11.2" r="0.7"></circle>
+              <circle class="vpln" cx="16.5" cy="11.2" r="0.7"></circle>
+            </svg>
+          `,
+          autobus: `
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <rect class="cara" x="4" y="6" width="16" height="11" rx="2"></rect>
+              <path class="cara" d="M7 17v2"></path>
+              <path class="cara" d="M17 17v2"></path>
+              <circle class="vpln" cx="8" cy="18" r="1.2"></circle>
+              <circle class="vpln" cx="16" cy="18" r="1.2"></circle>
+            </svg>
+          `
+        };
+
+        return icons[iconType] || icons.trofej;
+      }
+
+      // Vykreslení celé časové osy.
+      function renderSchedule(activeIndex) {
+        timelineElement.innerHTML = "";
+
+        schedule.forEach((item, index) => {
+          if (item.type === "day") {
+            const dayRow = document.createElement("li");
+            dayRow.className = "den";
+            dayRow.textContent = item.label;
+            timelineElement.appendChild(dayRow);
+            return;
+          }
+
+          const li = document.createElement("li");
+          li.className = "polozka";
+
+          if (index === activeIndex) {
+            li.classList.add("aktivni");
+          }
+
+          const time = document.createElement("div");
+          time.className = "cas";
+          time.textContent = formatTimeLabel(item);
+
+          const line = document.createElement("div");
+          line.className = "osa";
+          line.innerHTML = '<span class="bod" aria-hidden="true"></span>';
+
+          const content = document.createElement("div");
+          content.className = "obsah";
+
+          const texts = document.createElement("div");
+          texts.className = "texty";
+
+          const title = document.createElement("p");
+          title.className = "nazev";
+          title.textContent = item.title;
+          texts.appendChild(title);
+
+          if (index === activeIndex) {
+            const badge = document.createElement("span");
+            badge.className = "stitek";
+            badge.textContent = "PRÁVĚ PROBÍHÁ";
+            texts.appendChild(badge);
+          }
+
+          const icon = document.createElement("span");
+          icon.className = "ikona";
+          icon.innerHTML = getIconSvg(item.icon);
+          icon.setAttribute("aria-hidden", "true");
+
+          content.appendChild(texts);
+          content.appendChild(icon);
+
+          li.appendChild(time);
+          li.appendChild(line);
+          li.appendChild(content);
+
+          timelineElement.appendChild(li);
+        });
+      }
+
+      // Nalezení aktuálně probíhající položky podle času zařízení.
+      function getActiveIndex() {
+        const now = new Date();
+        const todayIso = getTodayIsoDate();
+        const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+        return schedule.findIndex((item) => {
+          if (item.type === "day" || item.date !== todayIso) {
+            return false;
+          }
+
+          const startMinutes = timeToMinutes(item.start);
+          const endMinutes = timeToMinutes(item.end);
+
+          if (item.showArrowOnly) {
+            return currentMinutes >= startMinutes && currentMinutes <= endMinutes;
+          }
+
+          return currentMinutes >= startMinutes && currentMinutes < endMinutes;
+        });
+      }
+
+      // Pravidelná aktualizace každých 30 sekund bez nutnosti obnovit stránku.
+      function updateActiveItem() {
+        const activeIndex = getActiveIndex();
+        renderSchedule(activeIndex);
+      }
+
+      updateActiveItem();
+      setInterval(updateActiveItem, 30000);
+    </script>
+  </body>
+</html>
